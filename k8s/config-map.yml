@@ -8,5 +8,9 @@ data:
   PSQL_SERVICE: "postgres-service"
   PSQL_PORT: "5432"
 
+  POSTGRES_DB: test_user
+  POSTGRES_HOST: postgres-service
+
+
   VITE_API_URL: "http://api.exptrackapp.local/api"
 
