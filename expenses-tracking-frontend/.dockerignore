@@ -1,0 +1,24 @@
+# Ignore node_modules (they will be installed during build)
+node_modules/
+
+# Ignore build output (dist/ or build/)
+dist/
+build/
+
+# Ignore .git directory (Git version control)
+.git/
+
+# Ignore Dockerfile itself
+Dockerfile
+
+# Ignore .gitignore (it’s only relevant locally)
+.gitignore
+
+# Ignore sensitive environment variables
+.env
+
+# Ignore CI/CD configurations
+Jenkinsfile
+
+# Ignore unnecessary dependency files (for Node.js, not Python)
+requirement.txt

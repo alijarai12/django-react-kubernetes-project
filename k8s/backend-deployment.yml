@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: exp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels: 
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: alija10/expenses_track_backend:latest
+        ports:
+        - containerPort: 8000
+          name: backend-port
+        envFrom:
+          - secretRef:
+              name: secrets
+          - configMapRef:
+              name: configmap
+      #   volumeMounts:
+      #     - name: backend-config-volume
+      #       mountPath: /myapp/backend/settings.py
+      #       subPath: settings.py
+      # volumes:
+      #   - name: backend-config-volume
+      #     hostPath:
+      #       path: /home/alija/Desktop/kubernetes-practice/project/full-stack-expense-tracking-app/expenses-tracking-backend/backend/settings.py
+      #       type: File
+
+        volumeMounts:
+          - name: backend-config-volume
+            mountPath: /myapp/backend/settings.py
+            subPath: settings.py
+      volumes:
+        - name: backend-config-volume
+          configMap:
+            name: backend-config
+            

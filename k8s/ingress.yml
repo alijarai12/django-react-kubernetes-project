@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: exp-track-ingress
+  namespace: exp
+  labels:
+    name: ingress
+spec:
+  rules:
+  - host: app.exptrackapp.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: frontend
+            port: 
+              number: 5173  # Must match the service port, NOT nodePort
+
+  - host: api.exptrackapp.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8000
+   

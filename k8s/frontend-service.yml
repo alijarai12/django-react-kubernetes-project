@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: exp
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+  - protocol: TCP
+    port: 5173     # Service port (matches Ingress)
+    targetPort: 5173
+
+
+    # port: 5173        # Inside the cluster
+    # targetPort: 5173  # Inside the pod
+    # nodePort: 5174    # External access on the host

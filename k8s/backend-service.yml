@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: exp
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 8000  # Service port (matches Ingress)
+      targetPort: 8000
+
+      # port: 8000 # Exposes the service inside the cluster / makes the backend accessible inside the cluster for other services (e.g., frontend, database, etc.)
+      # targetPort: 8000 # Internal container port / The port inside the backend container
+      # nodePort: 8002  # Expose outside the cluster on this port
