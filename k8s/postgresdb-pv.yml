@@ -12,3 +12,4 @@ spec:
     path: /data
     type: DirectoryOrCreate
   persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard

@@ -19,20 +19,66 @@ spec:
         ports:
         - containerPort: 8000
           name: backend-port
-        envFrom:
-          - secretRef:
-              name: secrets
-          - configMapRef:
-              name: configmap
-      #   volumeMounts:
-      #     - name: backend-config-volume
-      #       mountPath: /myapp/backend/settings.py
-      #       subPath: settings.py
-      # volumes:
-      #   - name: backend-config-volume
-      #     hostPath:
-      #       path: /home/alija/Desktop/kubernetes-practice/project/full-stack-expense-tracking-app/expenses-tracking-backend/backend/settings.py
-      #       type: File
+
+        env:
+          # Get Database Name from ConfigMap
+          - name: PSQL_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: PSQL_NAME
+
+          # Get Database User & Password from Secret
+          - name: PSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: PSQL_USER
+
+          - name: PSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: PSQL_PASSWORD
+
+          - name: PSQL_SERVICE
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: PSQL_SERVICE
+
+          - name: PSQL_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: PSQL_PORT
+
+          # - name: POSTGRES_DB
+          #   valueFrom:
+          #     configMapKeyRef:
+          #       name: configmap
+          #       key: POSTGRES_DB
+
+
+
+          # Django Superuser Configuration
+          - name: DJANGO_SUPERUSER_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: DJANGO_SUPERUSER_USERNAME
+
+          - name: DJANGO_SUPERUSER_EMAIL
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: DJANGO_SUPERUSER_EMAIL
+
+          - name: DJANGO_SUPERUSER_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: DJANGO_SUPERUSER_PASSWORD
 
         volumeMounts:
           - name: backend-config-volume
@@ -43,3 +89,19 @@ spec:
           configMap:
             name: backend-config
             
+
+
+        # envFrom:
+        #   - secretRef:
+        #       name: secrets
+        #   - configMapRef:
+        #       name: configmap
+      #   volumeMounts:
+      #     - name: backend-config-volume
+      #       mountPath: /myapp/backend/settings.py
+      #       subPath: settings.py
+      # volumes:
+      #   - name: backend-config-volume
+      #     hostPath:
+      #       path: /home/alija/Desktop/kubernetes-practice/project/full-stack-expense-tracking-app/expenses-tracking-backend/backend/settings.py
+      #       type: File

@@ -4,12 +4,14 @@ metadata:
   name: configmap
   namespace: exp
 data:
-  PSQL_NAME: "testuser" # database
+  PSQL_NAME: "devops_db" # database
   PSQL_SERVICE: "postgres-service"
   PSQL_PORT: "5432"
 
-  POSTGRES_DB: test_user
-  POSTGRES_HOST: postgres-service
+  POSTGRES_DB: "devops_db"
+  POSTGRES_HOST: "postgres-service"
+
+  DJANGO_SUPERUSER_USERNAME: cm9vdA==
 
 
   VITE_API_URL: "http://api.exptrackapp.local/api"

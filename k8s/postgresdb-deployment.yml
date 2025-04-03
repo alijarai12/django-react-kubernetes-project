@@ -18,16 +18,42 @@ spec:
         image: postgres:14.1-alpine
         ports:
           - containerPort: 5432
-        envFrom:
-          - secretRef:
-              name: secrets
-          - configMapRef:
-              name: configmap
+        env:
+          # Get Database Name from ConfigMap
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: POSTGRES_DB
+
+          # Get Database User & Password from Secret
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: POSTGRES_USER
+
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: POSTGRES_PASSWORD
+
         volumeMounts:
-          - name: postgres-data
+          - name: postgres-storage
             mountPath: /var/lib/postgresql/data
+
+
+        # envFrom:
+        #   - secretRef:
+        #       name: secrets
+        #   - configMapRef:
+        #       name: configmap
+        # volumeMounts:
+        #   - name: postgres-data
+        #     mountPath: /var/lib/postgresql/data
       volumes:
-        - name: postgres-data
+        - name: postgres-storage
           persistentVolumeClaim:
             claimName: postgres-pvc
             
