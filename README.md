@@ -468,17 +468,17 @@ http://<minikube-ip>:30502
 
 Once logged in to pgAdmin, you can add a new server to manage the PostgreSQL database:
 
-Name: Choose any name for the server (e.g., K8s-Server).
+- Name: Choose any name for the server (e.g., K8s-Server).
 
-Host: postgres-service (this is the name of the PostgreSQL service in Kubernetes).
+- Host: postgres-service (this is the name of the PostgreSQL service in Kubernetes).
 
-Database: devops_db
+- Database: devops_db
 
-Port: 5432
+- Port: 5432
 
-Username: testuser
+- Username: testuser
 
-Password: testuser
+- Password: testuser
 
 After this, you will be able to view and manage your PostgreSQL database via pgAdmin.
 
@@ -487,37 +487,37 @@ After this, you will be able to view and manage your PostgreSQL database via pgA
 
 # Screenshots & Results
 
-## **Accessing the Frontend**
+- ## **Accessing the Frontend**
 ![Frontend](images/accessing-frontend.png)
 
-## **Creating a Django Superuser**
+- ## **Creating a Django Superuser**
 ![Superuser](images/superuser.png)
 
-## **Login with created superuser**
+- ## **Login with created superuser**
 ![Login Superuser](images/login-superuser.png)
 
-## **Accessing the Backend**
+- ## **Accessing the Backend**
 ![Backend](images/accessing-backend.png)
 
-## **Access PostgreSQL from Within the Pod**
+- ## **Access PostgreSQL from Within the Pod**
 ![Database Access ](images/acessing-db-with-pod.png)
 
 
-## **Access PostgreSQL from Outside Kubernetes**
-### Port Forwarding PostgreSQL from Kubernetes
+- ## **Access PostgreSQL from Outside Kubernetes**
+-  ### Port Forwarding PostgreSQL from Kubernetes
 ![Port Forward](images/port-forwarding.png)
 
-### Connected using psql database client:
+-  ### Connected using psql database client:
 ![psql database client](images/psq-db-client.png)
 
- ## **Accessing pgAdmin through the browser**
-##Login using the credentials stored in the Kubernetes Secret
+- ## **Accessing pgAdmin through the browser**
+- ### Login using the credentials stored in the Kubernetes Secret
 ![Login pgAdmin](images/pgadmin-login.png)
 
 
-## Registered a new server to manage the PostgreSQL database:
+- ### Registered a new server to manage the PostgreSQL database:
 ![new server](images/registered-a-new-server.png)
 
 
-## Data in the devops_db database
+- ### Data in the devops_db database
 ![Data devops_db](images/devops_db-data.png)
