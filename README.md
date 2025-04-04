@@ -18,8 +18,8 @@ This is a simple CRUD application that helps us track our expenses. The app is b
 
 ### 1. **Clone the repository**
    Clone the repository to your local machine:
-- ```bash
-    git git@github.com:alijarai12/django-react-kubernetes-project.git
+    ```bash
+    git clone git@github.com:alijarai12/django-react-kubernetes-project.git
     cd django-react-kubernetes-project
 
 ---
@@ -30,7 +30,7 @@ This is a simple CRUD application that helps us track our expenses. The app is b
 ### 2.1. **Django Configuration**
 
 The **Django REST Framework** (DRF) is used for the backend, which interacts with the **PostgreSQL** database. The database connection and other settings are configured in the `settings.py` file.
--     ```ini
+    ```ini
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -46,50 +46,57 @@ The **Django REST Framework** (DRF) is used for the backend, which interacts wit
 In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like database credentials and environment variables for the backend.
 - ConfigMap (backend):
 
-        ```ini
-        apiVersion: v1
-        kind: ConfigMap
-        metadata:
-        name: configmap
-        namespace: exp
-        data:
-        PSQL_NAME: "devops_db"
-        PSQL_SERVICE: "postgres-service"
-        PSQL_PORT: "5432"
+    ``ini
+    apiVersion: v1
+    kind: Secret
+    metadata:
+    name: secrets
+    namespace: exp
+    data:
+    POSTGRES_USER: dGVzdHVzZXI=  # base64-encoded username
+    POSTGRES_PASSWORD: dGVzdHVzZXI=  # base64-encoded password
+    PSQL_USER: dGVzdHVzZXI=
+    PSQL_PASSWORD: dGVzdHVzZXI=
 
 - Secret (backend):
-        ```ini
-        apiVersion: v1
-        kind: Secret
-        metadata:
-        name: secrets
-        namespace: exp
-        data:
-        POSTGRES_USER: dGVzdHVzZXI=  # base64-encoded username
-        POSTGRES_PASSWORD: dGVzdHVzZXI=  # base64-encoded password
-        PSQL_USER: dGVzdHVzZXI=
-        PSQL_PASSWORD: dGVzdHVzZXI=
-
+    ```ini
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+    name: backend-ingress
+    namespace: exp
+    spec:
+    rules:
+    - host: api.exptrackapp.local
+        http:
+        paths:
+        - pathType: Prefix
+            path: "/"
+            backend:
+            service:
+                name: backend
+                port:
+                number: 8000
 ### 2.3. **Backend Ingress Setup**
 The Ingress ensures that the backend service is accessible via a specified hostname.
--        ```ini
-        apiVersion: networking.k8s.io/v1
-        kind: Ingress
-        metadata:
-        name: backend-ingress
-        namespace: exp
-        spec:
-        rules:
-        - host: api.exptrackapp.local
-            http:
-            paths:
-            - pathType: Prefix
-                path: "/"
-                backend:
-                service:
-                    name: backend
-                    port:
-                    number: 8000
+    ```ini
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+    name: backend-ingress
+    namespace: exp
+    spec:
+    rules:
+    - host: api.exptrackapp.local
+        http:
+        paths:
+        - pathType: Prefix
+            path: "/"
+            backend:
+            service:
+                name: backend
+                port:
+                number: 8000
 
 ---
 
