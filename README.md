@@ -30,23 +30,23 @@ This is a simple CRUD application that helps us track our expenses. The app is b
 ### 2.1. **Django Configuration**
 
 The **Django REST Framework** (DRF) is used for the backend, which interacts with the **PostgreSQL** database. The database connection and other settings are configured in the `settings.py` file.
-
-``python
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": environ.get("PSQL_NAME"),
-        "USER": environ.get("PSQL_USER"),
-        "PASSWORD": environ.get("PSQL_PASSWORD"),
-        "HOST": environ.get("PSQL_SERVICE"),
-        "PORT": environ.get("PSQL_PORT"),
+    ```python
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": environ.get("PSQL_NAME"),
+            "USER": environ.get("PSQL_USER"),
+            "PASSWORD": environ.get("PSQL_PASSWORD"),
+            "HOST": environ.get("PSQL_SERVICE"),
+            "PORT": environ.get("PSQL_PORT"),
+        }
     }
-}
 
 
 ### 2.2. **Kubernetes ConfigMap and Secret for Backend**
 In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like database credentials and environment variables for the backend.
 - ConfigMap (backend):
+
         ```yaml
         apiVersion: v1
         kind: ConfigMap
@@ -59,6 +59,7 @@ In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like datab
         PSQL_PORT: "5432"
 
 - Secret (backend):
+
         ```yaml
         apiVersion: v1
         kind: Secret
