@@ -48,7 +48,7 @@ The **Django REST Framework** (DRF) is used for the backend, which interacts wit
 ### 2.2. **Kubernetes ConfigMap and Secret for Backend**
 In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like database credentials and environment variables for the backend.
 - ConfigMap (backend):
-    ```yaml
+```
     apiVersion: v1
     kind: ConfigMap
     metadata:
@@ -63,9 +63,10 @@ In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like datab
     POSTGRES_HOST: "postgres-service" 
 
     DJANGO_SUPERUSER_USERNAME: cm9vdA==  # base64-encoded superuser username
+```
 
 - Secret (backend):
-    ```yaml
+```
     apiVersion: v1
     kind: Secret
     metadata:
@@ -81,10 +82,11 @@ In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like datab
 
     PSQL_USER: dGVzdHVzZXI=  # database user
     PSQL_PASSWORD: dGVzdHVzZXI=  # database password
+```
 
 ### 2.3. **Backend Ingress Setup**
 The Ingress ensures that the backend service is accessible via a specified hostname.
-    ```yaml
+```
     apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
@@ -102,6 +104,8 @@ The Ingress ensures that the backend service is accessible via a specified hostn
                 name: backend
                 port:
                 number: 8000  # Backend service port
+```
+
 
 ---
 
@@ -111,7 +115,7 @@ The frontend is built using **React** and **Vite** as the build tool. Kubernetes
 
 ### 3.1. **Frontend Configuration**
 The frontend uses **Vite** to bundle and serve the application. Below is the relevant configuration for Vite in `vite.config.ts`:
-    ```javascript
+```
     import { defineConfig } from 'vite'
     import react from '@vitejs/plugin-react'
 
@@ -128,6 +132,7 @@ The frontend uses **Vite** to bundle and serve the application. Below is the rel
         allowedHosts: ["app.exptrackapp.local"], 
     }
     })
+```
 
 Key points:
 
@@ -139,12 +144,13 @@ Key points:
 
 ### 3.2. **Frontend Environment Configuration (.env)**
 To connect to the backend API, the frontend uses an environment variable defined in the .env file:
-    ```ini
+```
     VITE_API_URL=http://api.exptrackapp.local/api
+```
 
 
 ### 3.3. **Kubernetes ConfigMap for Frontend**
-    ```yaml
+```
     apiVersion: v1
     kind: ConfigMap
     metadata:
@@ -153,10 +159,11 @@ To connect to the backend API, the frontend uses an environment variable defined
     data:
     VITE_API_URL: "http://api.exptrackapp.local/api"
 
+```
 
 ### 3.4. **Kubernetes Ingress for Frontend**
 The frontend service is exposed to the outside world via an Ingress configuration in Kubernetes. The Ingress routes traffic from app.exptrackapp.local to the frontend service on port 5173:
-    ```yaml
+```
     apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
@@ -174,9 +181,10 @@ The frontend service is exposed to the outside world via an Ingress configuratio
                 name: frontend
                 port:
                 number: 5173 # Must match the service port
+```
 
 ### 3.5. **Frontend Service Configuration**
-    ```yaml
+```
     apiVersion: v1
     kind: Service
     metadata:
@@ -188,6 +196,7 @@ The frontend service is exposed to the outside world via an Ingress configuratio
         targetPort: 5173
     selector:
         app: frontend
+```
 
 
 
@@ -195,12 +204,14 @@ The frontend service is exposed to the outside world via an Ingress configuratio
 Once the frontend is deployed via Kubernetes, you can access the application at http://app.exptrackapp.local (this assumes that you have configured DNS or hosts file entries to resolve app.exptrackapp.local to the appropriate Minikube IP or Kubernetes cluster IP).
 
 You can view the frontend service and its status by running:
-    ```yaml
+```
     kubectl get services -n exp
+```
 
 You can check the ingress routes with:
-    ```yaml
+```
     kubectl get ingress -n exp
+```
 
 
 
