@@ -14,41 +14,35 @@ This is a simple CRUD application that helps us track our expenses. The app is b
 - **Orchestration**: Kubernetes
 - **Deployment**: Minikube (local Kubernetes cluster)
 
+---
+
 ### 1. **Clone the repository**
    Clone the repository to your local machine:
     ```bash
     git git@github.com:alijarai12/django-react-kubernetes-project.git
     cd django-react-kubernetes-project
 
+---
+
+
 ## 2. **Backend Setup - Django REST Framework**
 
 ### 2.1. **Django Configuration**
 
 The **Django REST Framework** (DRF) is used for the backend, which interacts with the **PostgreSQL** database. The database connection and other settings are configured in the `settings.py` file.
-        ```python
-        DATABASES = {
-            "default": {
-                "ENGINE": "django.db.backends.postgresql",
-                "NAME": environ.get("PSQL_NAME"),
-                "USER": environ.get("PSQL_USER"),
-                "PASSWORD": environ.get("PSQL_PASSWORD"),
-                "HOST": environ.get("PSQL_SERVICE"),
-                "PORT": environ.get("PSQL_PORT"),
-            }
-        }
 
-        CSRF_TRUSTED_ORIGINS = [
-            "http://localhost:8000",
-            "http://api.exptrackapp.local",
-        ]
+``python
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": environ.get("PSQL_NAME"),
+        "USER": environ.get("PSQL_USER"),
+        "PASSWORD": environ.get("PSQL_PASSWORD"),
+        "HOST": environ.get("PSQL_SERVICE"),
+        "PORT": environ.get("PSQL_PORT"),
+    }
+}
 
-        CORS_ALLOWED_ORIGINS = [
-            "http://localhost:5173",
-            "http://app.exptrackapp.local",
-            "http://api.exptrackapp.local",
-        ]
-
-        ALLOWED_HOSTS = ["localhost", "api.exptrackapp.local"]
 
 ### 2.2. **Kubernetes ConfigMap and Secret for Backend**
 In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like database credentials and environment variables for the backend.
