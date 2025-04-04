@@ -31,7 +31,7 @@ cd django-react-kubernetes-project
 ### 2.1. **Django Configuration**
 
 The **Django REST Framework** (DRF) is used for the backend, which interacts with the **PostgreSQL** database. The database connection and other settings are configured in the `settings.py` file.
-    ```python
+```
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -42,6 +42,7 @@ The **Django REST Framework** (DRF) is used for the backend, which interacts wit
             "PORT": environ.get("PSQL_PORT"),
         }
     }
+```
 
 
 ### 2.2. **Kubernetes ConfigMap and Secret for Backend**
