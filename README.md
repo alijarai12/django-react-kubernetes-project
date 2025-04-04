@@ -17,7 +17,7 @@ This is a simple CRUD application that helps us track our expenses. The app is b
 ---
 
 ### 1. **Clone the repository**
-   Clone the repository to your local machine:
+Clone the repository to your local machine:
     ```bash
     git clone git@github.com:alijarai12/django-react-kubernetes-project.git
     cd django-react-kubernetes-project
@@ -45,7 +45,6 @@ The **Django REST Framework** (DRF) is used for the backend, which interacts wit
 ### 2.2. **Kubernetes ConfigMap and Secret for Backend**
 In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like database credentials and environment variables for the backend.
 - ConfigMap (backend):
-
     ``ini
     apiVersion: v1
     kind: Secret
@@ -138,7 +137,8 @@ To connect to the backend API, the frontend uses an environment variable defined
 
 
 ### 3.3. ** Kubernetes ConfigMap for Frontend**
-   .```ini
+    
+    ```ini
     apiVersion: v1
     kind: ConfigMap
     metadata:
@@ -150,6 +150,7 @@ To connect to the backend API, the frontend uses an environment variable defined
 
 ### 3.4. ** Kubernetes Ingress for Frontend**
 The frontend service is exposed to the outside world via an Ingress configuration in Kubernetes. The Ingress routes traffic from app.exptrackapp.local to the frontend service on port 5173:
+    
     ```ini
     apiVersion: networking.k8s.io/v1
     kind: Ingress
@@ -170,7 +171,8 @@ The frontend service is exposed to the outside world via an Ingress configuratio
                 number: 5173  # Must match the service port
 
 ### 3.5. ** Kubernetes Ingress for Frontend**
- `   ```ini
+
+    ```ini
     apiVersion: v1
     kind: Service
     metadata:
