@@ -17,11 +17,10 @@ This is a simple CRUD application that helps us track our expenses. The app is b
 ---
 
 ### 1. **Clone the repository**
-
 Clone the repository to your local machine:
-    ```bash
-    git clone git@github.com:alijarai12/django-react-kubernetes-project.git
-    cd django-react-kubernetes-project
+```
+git clone git@github.com:alijarai12/django-react-kubernetes-project.git
+cd django-react-kubernetes-project
 
 ---
 
