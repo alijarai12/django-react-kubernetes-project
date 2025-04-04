@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pgadmin
-  namespace: exp
+  namespace: exp  # Use the namespace where you are deploying
 spec:
   replicas: 1
   selector:
@@ -13,19 +13,26 @@ spec:
       labels:
         app: pgadmin
     spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ['sh', '-c', 'chown -R 5050:5050 /var/lib/pgadmin']
+          volumeMounts:
+            - name: pgadmin-storage
+              mountPath: /var/lib/pgadmin
+
       containers:
         - name: pgadmin
-          image: dpage/pgadmin4        
+          image: dpage/pgadmin4
           ports:
             - containerPort: 80
           envFrom:
             - secretRef:
-                name: secrets
-            - configMapRef:
-                name: configmap
+                name: pgadmin-secret
           volumeMounts:
-            - mountPath: "/var/lib/pgadmin"
-              name: pgadmin-storage
+            - name: pgadmin-storage
+              mountPath: /var/lib/pgadmin/sessions
       volumes:
         - name: pgadmin-storage
-          emptyDir: {}  # Use PersistentVolumeClaim for persistent storage
+          persistentVolumeClaim:
+            claimName: pgadmin-pvc

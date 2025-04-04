@@ -9,7 +9,7 @@ spec:
   capacity:
     storage: 1Gi
   hostPath:
-    path: /data
+    path: /home/alija/postgres-data
     type: DirectoryOrCreate
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: standard
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: postgres-storage

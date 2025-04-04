@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pvc
+  name: pgadmin-pvc
   namespace: exp
 spec:
   accessModes:
@@ -9,5 +9,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: postgres-storage
-      
+  storageClassName: pgadmin-storage

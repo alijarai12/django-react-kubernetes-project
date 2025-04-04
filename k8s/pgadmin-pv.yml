@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pgadmin-pv
+  namespace: exp
+spec:
+  capacity:
+    storage: 1Gi  # Adjust as needed
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: pgadmin-storage
+  hostPath:
+    path: /mnt/data/pgadmin # This is the host path where session data will be stored
+    type: DirectoryOrCreate
