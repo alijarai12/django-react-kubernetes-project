@@ -503,11 +503,11 @@ After this, you will be able to view and manage your PostgreSQL database via pgA
 ![Database Access ](images/acessing-db-with-pod.png)
 
 
- ## **Access PostgreSQL from Outside Kubernetes**
-## Port Forwarding PostgreSQL from Kubernetes
+## **Access PostgreSQL from Outside Kubernetes**
+### Port Forwarding PostgreSQL from Kubernetes
 ![Port Forward](images/port-forwarding.png)
 
-## Connected using psql database client:
+### Connected using psql database client:
 ![psql database client](images/psq-db-client.png)
 
  ## **Accessing pgAdmin through the browser**
