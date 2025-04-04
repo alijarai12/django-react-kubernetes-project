@@ -485,7 +485,7 @@ After this, you will be able to view and manage your PostgreSQL database via pgA
 ---
 
 
-### Screenshots & Results
+# Screenshots & Results
 
 ## **Accessing the Frontend**
 ![Frontend](images/accessing-frontend.png)
