@@ -11,8 +11,5 @@ data:
   POSTGRES_DB: "devops_db"
   POSTGRES_HOST: "postgres-service"
 
-  DJANGO_SUPERUSER_USERNAME: cm9vdA==
-
-
   VITE_API_URL: "http://api.exptrackapp.local/api"
 
