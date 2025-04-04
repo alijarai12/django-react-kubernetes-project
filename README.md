@@ -324,6 +324,7 @@ psql -U <POSTGRES_USER> -d <POSTGRES_DB>
 - Replace <POSTGRES_USER> with PostgreSQL username 'testuser'.
 
 - Replace <POSTGRES_DB> with database name 'devops_db'.
+
 ---
 
 ## Access PostgreSQL from Outside Kubernetes (Local Machine)
@@ -348,6 +349,7 @@ Now, you can connect using psql or any database client:
 ```
 psql -h localhost -p 5432 -U <POSTGRES_USER> -d <POSTGRES_DB>
 ```
+
 ---
 
 ### 2. **pgAdmin Setup**
@@ -480,41 +482,42 @@ Password: testuser
 
 After this, you will be able to view and manage your PostgreSQL database via pgAdmin.
 
+---
 
 
-## Screenshots & Results
+### Screenshots & Results
 
-**Accessing the Frontend**
+## **Accessing the Frontend**
 ![Frontend](images/accessing-frontend.png)
 
-**Creating a Django Superuser**
+## **Creating a Django Superuser**
 ![Superuser](images/superuser.png)
 
-**Login with created superuser**
+## **Login with created superuser**
 ![Login Superuser](images/login-superuser.png)
 
-**Accessing the Backend**
-![Backend](accessing-backend.png)
+## **Accessing the Backend**
+![Backend](images/accessing-backend.png)
 
-**Access PostgreSQL from Within the Pod**
+## **Access PostgreSQL from Within the Pod**
 ![Database Access ](images/acessing-db-with-pod.png)
 
 
- **Access PostgreSQL from Outside Kubernetes**
- Port Forwarding PostgreSQL from Kubernetes
+ ## **Access PostgreSQL from Outside Kubernetes**
+## Port Forwarding PostgreSQL from Kubernetes
 ![Port Forward](images/port-forwarding.png)
 
-Connected using psql database client:
+## Connected using psql database client:
 ![psql database client](images/psq-db-client.png)
 
- **Accessing pgAdmin through the browser**
-Login using the credentials stored in the Kubernetes Secret
+ ## **Accessing pgAdmin through the browser**
+##Login using the credentials stored in the Kubernetes Secret
 ![Login pgAdmin](images/pgadmin-login.png)
 
 
-Registered a new server to manage the PostgreSQL database:
+## Registered a new server to manage the PostgreSQL database:
 ![new server](images/registered-a-new-server.png)
 
 
-Data in the devops_db database
+## Data in the devops_db database
 ![Data devops_db](images/devops_db-data.png)
