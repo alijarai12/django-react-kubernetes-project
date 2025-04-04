@@ -100,22 +100,22 @@ The frontend is built using **React** and **Vite** as the build tool. Kubernetes
 
 ### 3.1. **Frontend Configuration**
 The frontend uses **Vite** to bundle and serve the application. Below is the relevant configuration for Vite in `vite.config.ts`:
-- ```typescript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+    ```ini
+    import { defineConfig } from 'vite'
+    import react from '@vitejs/plugin-react'
 
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: '0.0.0.0',    
-    port: 5173,
-    strictPort: true,   
-    hmr: {
-      host: "app.exptrackapp.local",
-    },
-    allowedHosts: ["app.exptrackapp.local"],
-  }
-})
+    export default defineConfig({
+    plugins: [react()],
+    server: {
+        host: '0.0.0.0',    
+        port: 5173,
+        strictPort: true,   
+        hmr: {
+        host: "app.exptrackapp.local",
+        },
+        allowedHosts: ["app.exptrackapp.local"],
+    }
+    })
 
 Key points:
 
@@ -127,13 +127,13 @@ Key points:
 
 ### 3.2. ** Frontend Environment Configuration (.env)**
 To connect to the backend API, the frontend uses an environment variable defined in the .env file:
+    ```ini
+    VITE_API_URL=http://api.exptrackapp.local/api
 
-- ```
-VITE_API_URL=http://api.exptrackapp.local/api
 
 ### 3.3. ** 3. Kubernetes ConfigMap for Frontend**
 
-- ```
+```ini
 apiVersion: v1
 kind: ConfigMap
 metadata:
