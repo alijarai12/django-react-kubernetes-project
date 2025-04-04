@@ -18,7 +18,7 @@ This is a simple CRUD application that helps us track our expenses. The app is b
 
 ### 1. **Clone the repository**
    Clone the repository to your local machine:
-    ```bash
+- ```bash
     git git@github.com:alijarai12/django-react-kubernetes-project.git
     cd django-react-kubernetes-project
 
@@ -30,7 +30,7 @@ This is a simple CRUD application that helps us track our expenses. The app is b
 ### 2.1. **Django Configuration**
 
 The **Django REST Framework** (DRF) is used for the backend, which interacts with the **PostgreSQL** database. The database connection and other settings are configured in the `settings.py` file.
-    ```python
+-     ```python
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -41,7 +41,6 @@ The **Django REST Framework** (DRF) is used for the backend, which interacts wit
             "PORT": environ.get("PSQL_PORT"),
         }
     }
-
 
 ### 2.2. **Kubernetes ConfigMap and Secret for Backend**
 In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like database credentials and environment variables for the backend.
@@ -74,7 +73,7 @@ In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like datab
 
 ### 2.3. **Backend Ingress Setup**
 The Ingress ensures that the backend service is accessible via a specified hostname.
-        ```yaml
+-        ```yaml
         apiVersion: networking.k8s.io/v1
         kind: Ingress
         metadata:
@@ -92,3 +91,56 @@ The Ingress ensures that the backend service is accessible via a specified hostn
                     name: backend
                     port:
                     number: 8000
+
+---
+
+
+## 3. **Frontend Setup - React (Vite)**
+The frontend is built using **React** and **Vite** as the build tool. Kubernetes handles the orchestration of the frontend service, while the Vite development server is configured to work with a local API hosted via the backend service.
+
+### 3.1. **Frontend Configuration**
+The frontend uses **Vite** to bundle and serve the application. Below is the relevant configuration for Vite in `vite.config.ts`:
+- ```typescript
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    host: '0.0.0.0',    
+    port: 5173,
+    strictPort: true,   
+    hmr: {
+      host: "app.exptrackapp.local",
+    },
+    allowedHosts: ["app.exptrackapp.local"],
+  }
+})
+
+Key points:
+
+- The Vite development server is bound to 0.0.0.0 and runs on port 5173.
+
+- Hot Module Replacement (HMR) is configured to work with app.exptrackapp.local.
+
+- The allowedHosts configuration ensures only specific domains (like app.exptrackapp.local) can access the development server.
+
+### 3.2. ** Frontend Environment Configuration (.env)**
+To connect to the backend API, the frontend uses an environment variable defined in the .env file:
+
+- ```
+VITE_API_URL=http://api.exptrackapp.local/api
+
+### 3.3. ** 3. Kubernetes ConfigMap for Frontend**
+
+- ```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: exp
+data:
+  VITE_API_URL: "http://api.exptrackapp.local/api"
+
+
+---
