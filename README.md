@@ -30,7 +30,7 @@ This is a simple CRUD application that helps us track our expenses. The app is b
 ### 2.1. **Django Configuration**
 
 The **Django REST Framework** (DRF) is used for the backend, which interacts with the **PostgreSQL** database. The database connection and other settings are configured in the `settings.py` file.
--     ```python
+-     ```ini
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -46,7 +46,7 @@ The **Django REST Framework** (DRF) is used for the backend, which interacts wit
 In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like database credentials and environment variables for the backend.
 - ConfigMap (backend):
 
-        ```yaml
+        ```ini
         apiVersion: v1
         kind: ConfigMap
         metadata:
@@ -58,8 +58,7 @@ In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like datab
         PSQL_PORT: "5432"
 
 - Secret (backend):
-
-        ```yaml
+        ```ini
         apiVersion: v1
         kind: Secret
         metadata:
@@ -73,7 +72,7 @@ In the Kubernetes setup, the ConfigMap and Secret hold sensitive data like datab
 
 ### 2.3. **Backend Ingress Setup**
 The Ingress ensures that the backend service is accessible via a specified hostname.
--        ```yaml
+-        ```ini
         apiVersion: networking.k8s.io/v1
         kind: Ingress
         metadata:
@@ -131,16 +130,63 @@ To connect to the backend API, the frontend uses an environment variable defined
     VITE_API_URL=http://api.exptrackapp.local/api
 
 
-### 3.3. ** 3. Kubernetes ConfigMap for Frontend**
+### 3.3. ** Kubernetes ConfigMap for Frontend**
+   .```ini
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+    name: frontend-config
+    namespace: exp
+    data:
+    VITE_API_URL: "http://api.exptrackapp.local/api"
 
-```ini
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: frontend-config
-  namespace: exp
-data:
-  VITE_API_URL: "http://api.exptrackapp.local/api"
+
+### 3.4. ** Kubernetes Ingress for Frontend**
+The frontend service is exposed to the outside world via an Ingress configuration in Kubernetes. The Ingress routes traffic from app.exptrackapp.local to the frontend service on port 5173:
+    ```ini
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+    name: frontend-ingress
+    namespace: exp
+    spec:
+    rules:
+    - host: app.exptrackapp.local
+        http:
+        paths:
+        - pathType: Prefix
+            path: "/"
+            backend:
+            service:
+                name: frontend
+                port:
+                number: 5173  # Must match the service port
+
+### 3.5. ** Kubernetes Ingress for Frontend**
+ `   ```ini
+    apiVersion: v1
+    kind: Service
+    metadata:
+    name: frontend
+    namespace: exp
+    spec:
+    ports:
+    - port: 5173
+        targetPort: 5173
+    selector:
+        app: frontend
+
+### 3.5. ** Kubernetes Ingress for Frontend**
+Once the frontend is deployed via Kubernetes, you can access the application at http://app.exptrackapp.local (this assumes that you have configured DNS or hosts file entries to resolve app.exptrackapp.local to the appropriate Minikube IP or Kubernetes cluster IP).
+
+You can view the frontend service and its status by running:
+    ```ini
+    kubectl get services -n exp
+
+You can check the ingress routes with:
+    ```ini
+    kubectl get ingress -n exp
+
 
 
 ---
