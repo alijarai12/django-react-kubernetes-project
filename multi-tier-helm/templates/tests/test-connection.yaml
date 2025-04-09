@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "multi-tier-helm.fullname" . }}-test-connection"
+  labels:
+    {{- include "multi-tier-helm.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      # Dynamically choose service and port based on the component you want to test
+      args:
+        {{- if .Values.frontend.enabled }}
+        - "{{ .Values.frontend.service.name }}:{{ .Values.frontend.service.port }}"
+        {{- else if .Values.backend.enabled }}
+        - "{{ .Values.backend.service.name }}:{{ .Values.backend.service.port }}"
+        {{- else if .Values.postgres.enabled }}
+        - "{{ .Values.postgres.service.name }}:{{ .Values.postgres.service.port }}"
+        {{- else }}
+        - "Service not enabled"
+        {{- end }}
+  restartPolicy: Never

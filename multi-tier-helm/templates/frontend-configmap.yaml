@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.frontend.configMapRef }}
+
+  namespace: {{ .Release.Namespace }}
+data:
+  VITE_API_URL: "{{ .Values.frontend.viteApiUrl }}"
+
+  .env: |-
+{{ .Files.Get "frontend/.env" | indent 4 }}
+
+  vite.config.ts: |-
+{{ .Files.Get "frontend/vite.config.ts" | indent 4 }}
+
+  config.ts: |-
+{{ .Files.Get "frontend/config.ts" | indent 4 }}

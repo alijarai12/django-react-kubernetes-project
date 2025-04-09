@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-frontend
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.frontend.appLabel }}
+  template:
+    metadata:
+      labels: 
+        app: {{ .Values.frontend.appLabel }}
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"     
+          ports:
+          - containerPort: {{ .Values.frontend.containerPort }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.frontend.configMapRef }}
+          volumeMounts:
+            - name: {{ .Values.frontend.volumeName }}
+              mountPath: {{ .Values.frontend.volumeMountPathConfig }}
+              subPath: config.ts
+            - name: {{ .Values.frontend.volumeName }}
+              mountPath: {{ .Values.frontend.volumeMountPathVite }}
+              subPath: vite.config.ts
+            - name: {{ .Values.frontend.volumeName }}
+              mountPath: {{ .Values.frontend.volumeMountPathEnv }}
+              subPath: .env
+      volumes:
+        - name: {{ .Values.frontend.volumeName }}
+          configMap:
+            name: {{ .Values.frontend.configMapRef }} # This should be the name of the configMap created with kubectl create configmap
+            

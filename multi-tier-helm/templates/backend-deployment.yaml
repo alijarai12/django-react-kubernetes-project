@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-backend
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.backend.appLabel }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backend.appLabel }}
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.backend.port }}
+              name: backend-port
+          envFrom:
+            - secretRef:
+                name: {{ .Values.backend.secretRef }}
+            - configMapRef:
+                name: {{ .Values.backend.configMapRef }}
+          volumeMounts:
+            - name: {{ .Values.backend.volumeName }}
+              mountPath: {{ .Values.backend.volumeMountPath }}
+              subPath: {{ .Values.backend.configFileName }}
+      volumes:
+        - name: {{ .Values.backend.volumeName }}
+          configMap:
+            name: {{ .Values.backend.configMapRef }}

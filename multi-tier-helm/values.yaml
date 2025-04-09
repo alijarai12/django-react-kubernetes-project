@@ -1,0 +1,104 @@
+backend:
+  enabled: true
+  appLabel: backend
+  image:
+    repository: alija10/expenses_track_backend
+    tag: latest
+  replicas: 1
+  port: 8000
+
+  secretRef: backend-secrets
+  configMapRef: backend-configmap
+
+  volumeMountPath: /myapp/backend/settings.py
+  volumeName: backend-config-volume
+  configFileName: settings.py
+
+  config:
+    psqlName: "devops_db"  # database
+    psqlService: "postgres-service"
+    psqlPort: "5432"
+
+  secret:
+    pgAdminEmail: "test@gmail.com" 
+    pgAdminPassword: "test" 
+    psqlUser: "testuser" 
+    psqlPassword: "testuser" 
+
+  service:
+    name: backend
+    type: ClusterIP
+    port: 8000
+    targetPort: 8000
+
+postgres:
+  enabled: true
+  name: postgres
+  image:
+    repository: postgres
+    tag: "14.1-alpine"
+  port: 5432
+  pvc:
+    storage: 1Gi
+    claimName: postgres-pvc
+  pv:
+    volumeName: postgres-pv
+    path: /data
+  secretName: secrets
+  configMapRef: postgres-configmap
+
+
+  config:
+    POSTGRES_DB: "devops_db"
+    POSTGRES_HOST: "postgres-service"
+  secret:
+    POSTGRES_USER: "testuser"
+    POSTGRES_PASSWORD: "testuser"
+
+  service:
+    name: postgres-service
+    port: 5432
+    targetPort: 5432
+    type: ClusterIP
+
+
+
+frontend:
+  enabled: true
+  appLabel: frontend
+  replicas: 1
+  image:
+    repository: alija10/expenses_track_frontend
+    tag: latest
+  containerPort: 5173
+  configMapRef: frontend-configmap
+  volumeName: frontend-config-volume
+
+  volumeMountPathConfig: /app/src/config.ts      # Dynamic path for frontend config.ts
+  volumeMountPathVite: /app/vite.config.ts       # Dynamic path for frontend vite.config.ts
+  volumeMountPathEnv: /app/.env                  # Dynamic path for frontend .env
+
+  config:
+    viteApiUrl: "http://api.exptrackapp.local/api"
+
+  service:
+    name: frontend
+    type: ClusterIP
+    port: 5173
+    targetPort: 5173
+
+ingress:
+  rules:
+    - host: app.exptrackapp.local
+      paths:
+        - path: /
+          service:
+            name: frontend
+            port: 5173
+
+    - host: api.exptrackapp.local
+      paths:
+        - path: /
+          service:
+            name: backend
+            port: 8000

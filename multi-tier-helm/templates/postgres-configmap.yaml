@@ -1,0 +1,10 @@
+# templates/postgres-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.postgres.configMapRef }}
+
+  namespace: {{ .Release.Namespace }}
+data:
+  POSTGRES_DB: "{{ .Values.postgres.config.POSTGRES_DB }}"
+  POSTGRES_HOST: "{{ .Values.postgres.config.POSTGRES_HOST }}"
