@@ -72,14 +72,16 @@ frontend:
     tag: latest
   containerPort: 5173
   configMapRef: frontend-configmap
+  config:
+    viteApiUrl: "http://api.exptrackapp.local/api"
+
+
   volumeName: frontend-config-volume
 
   volumeMountPathConfig: /app/src/config.ts      # Dynamic path for frontend config.ts
   volumeMountPathVite: /app/vite.config.ts       # Dynamic path for frontend vite.config.ts
   volumeMountPathEnv: /app/.env                  # Dynamic path for frontend .env
 
-  config:
-    viteApiUrl: "http://api.exptrackapp.local/api"
 
   service:
     name: frontend

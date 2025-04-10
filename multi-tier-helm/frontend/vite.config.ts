@@ -5,12 +5,12 @@ export default defineConfig({
   plugins: [react()],
 
   server: {
-    host: '0.0.0.0',     // Allows access from outside the container
+    host: '0.0.0.0',     
     port: 5173,
-    strictPort: true,     // Ensures the port doesn't change if 5173 is occupied
+    strictPort: true,     
     hmr: {
-      host: "app.exptrackapp.local", // Needed for Hot Module Replacement
+      host: "app.exptrackapp.local", 
     },
-    allowedHosts: ["app.exptrackapp.local"], // ✅ Allow requests from this hostname
+    allowedHosts: ["app.exptrackapp.local"],
   }
 })

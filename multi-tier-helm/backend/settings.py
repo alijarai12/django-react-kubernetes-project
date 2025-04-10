@@ -150,8 +150,8 @@ CORS_ALLOWED_ORIGINS = [
 
 
 ALLOWED_HOSTS = [
-    'api.exptrackapp.local',     # Backend API domain
-    'localhost',                 # Local development address (optional)
-    '127.0.0.1',                 # Localhost IP (optional)
+    'api.exptrackapp.local',     
+    'localhost',                 
+    '127.0.0.1',                
 ]
 
